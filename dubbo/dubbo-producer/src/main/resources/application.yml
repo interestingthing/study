@@ -1,0 +1,36 @@
+server:
+  port: 18081
+
+spring:
+  application:
+    name: dubbo-producer
+
+  ## dubbo springboot 配置
+  dubbo:
+    application:
+      id: dubbo-producer
+      name: dubbo-producer
+    scan:
+      base-package: pers.cjg.dubbo
+    registry:
+      address: zookeeper://127.0.0.1:2181
+#      protocol: zookeeper
+#      address: 127.0.0.1
+#      port: 2181
+#      register: true
+    server: true
+    protocol:
+      name: dubbo
+#      host: 127.0.0.1
+      port: 20880
+
+    provider:
+      filter: tracing
+    consumer:
+      filter: tracing
+  sleuth:
+    propagation-keys:
+      - x-request-id
+      - x-fix-request-id
+    trace-id128: true
+

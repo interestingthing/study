@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="off" monitorInterval="30">
+    <properties>
+        <property name="LOG_HOME">../logs</property>
+        <property name="ERROR_LOG_FILE_NAME">error</property>
+        <property name="APP_LOG_FILE_NAME">app</property>
+        <property name="PATTERN_LAYOUT">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} [%level] dubbo-consumer [%thread]-%logger{1.}.%method dev %X{X-B3-TraceId} %X{X-B3-SpanId} %msg%n</property>
+        <!--<property name="PATTERN_LAYOUT">[%thread] [-,%X{X-B3-TraceId:-},%style{%X{X-B3-SpanId}}{Magenta},%X{X-Span-Export}] %X{traceId} %X{cno} %highlight{%d} %-5p %style{(%F:%L)}{green} %style{%method}{cyan} - %m%n</property>-->
+        <!--<property name="PATTERN_LAYOUT">[%d{yyyy-MM-dd HH:mm:ss} 0 %level{TRACE=0,DEBUG=0,INFO=1,WARN=3,ERROR=4,FATAL=5}] [newcar-order] %X{RequestId} [%thread] [%style{%X{X-B3-SpanId}}{Magenta}] %style{%logger{50}}{green} %style{%method}{cyan} - %msg%n</property>-->
+        <!--<property name="PATTERN_LAYOUT">[%thread] [%style{%X{traceId}}{Magenta} - %style{%X{X-B3-SpanId}}{Magenta}]  %highlight{%d} %-5p %style{(%F:%L)}{green} %style{%l}{cyan} - %m%n</property>-->
+    </properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN_LAYOUT}"/>
+        </Console>
+        <RollingRandomAccessFile name="AppLog" fileName="${LOG_HOME}/${APP_LOG_FILE_NAME}.log"
+                                 filePattern="${LOG_HOME}/history/app/${APP_LOG_FILE_NAME}.log.%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN_LAYOUT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="ErrorLog" fileName="${LOG_HOME}/${ERROR_LOG_FILE_NAME}.log"
+                                 filePattern="${LOG_HOME}/history/error/${ERROR_LOG_FILE_NAME}.log.%d{yyyy-MM-dd}-%i.log.gz">
+            <ThresholdFilter level="ERROR"/>
+            <PatternLayout pattern="${PATTERN_LAYOUT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="DbLog" fileName="${LOG_HOME}/db.log"
+                                 filePattern="${LOG_HOME}/history/db/db.log.%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN_LAYOUT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="CrawlLog" fileName="${LOG_HOME}/crawl.log"
+                                 filePattern="${LOG_HOME}/history/crawl/crawl.log.%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN_LAYOUT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="ApiLog" fileName="${LOG_HOME}/api.log"
+                                 filePattern="${LOG_HOME}/history/api/api.log.%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN_LAYOUT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="CacheLog" fileName="${LOG_HOME}/cache.log"
+                                 filePattern="${LOG_HOME}/history/cache/cache.log.%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN_LAYOUT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="KfkLog" fileName="${LOG_HOME}/kfk.log"
+                                 filePattern="${LOG_HOME}/history/kfk/kfk.log.%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN_LAYOUT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="FeignLog" fileName="${LOG_HOME}/feign.log"
+                                 filePattern="${LOG_HOME}/history/feign/feign.log.%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN_LAYOUT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+        <!--<Sentry name="Sentry" />-->
+    </Appenders>
+
+    <Loggers>
+        <!--redis重新连接监听器-->
+        <logger name="io.lettuce.core.protocol.ConnectionWatchdog" level="warn" additivity="false"
+                includeLocation="true">
+            <appender-ref ref="ErrorLog"/>
+            <appender-ref ref="Console"/>
+        </logger>
+
+        <root level="debug" includeLocation="true">
+            <appender-ref ref="Console"/>
+            <!--<appender-ref ref="Sentry" level="WARN" />-->
+        </root>
+    </Loggers>
+</Configuration>
