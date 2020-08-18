@@ -14,6 +14,10 @@ public class UuidController {
     @Reference
     private UuidService uuidService;
 
+    /**
+     * 测试日志trace
+     * @return
+     */
     @GetMapping("/uuid")
     public String uuid() {
         return uuidService.generateId();
