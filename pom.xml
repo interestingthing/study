@@ -12,6 +12,8 @@
         <module>dubbo</module>
         <module>cyclic-dependence-about-async</module>
         <module>mysql</module>
+        <module>gateway</module>
+        <module>algorithm</module>
     </modules>
 
     <parent>
